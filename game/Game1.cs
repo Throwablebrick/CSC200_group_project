@@ -1,19 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary;
 
 namespace mgTest;
 
-public class Game1 : Game
+public class Game1 : Core
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
-    public Game1()
+	private Texture2D _slime;
+    public Game1() : base("Quinticential game", 1280, 720, false)
     {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
     }
 
     protected override void Initialize()
@@ -25,9 +21,7 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+		_slime = Content.Load<Texture2D>("images/Slime");
     }
 
     protected override void Update(GameTime gameTime)
@@ -44,7 +38,12 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+		// prepare for rendering
+		SpriteBatch.Begin();
+		// draw the slime
+		SpriteBatch.Draw(_slime, Vector2.Zero, Color.White);
+		// need to end it when you're done
+		SpriteBatch.End();
 
         base.Draw(gameTime);
     }
