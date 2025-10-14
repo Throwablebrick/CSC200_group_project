@@ -2,12 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 
 namespace mgTest;
 
 public class Game1 : Core
 {
-	private Texture2D _slime;
+	private Sprite _slime;
+	private Sprite _jellyfish;
     public Game1() : base("Quinticential game", 1280, 720, false)
     {
     }
@@ -21,7 +23,13 @@ public class Game1 : Core
 
     protected override void LoadContent()
     {
-		_slime = Content.Load<Texture2D>("images/Slime");
+		TextureAtlas jellyfishSheet = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
+		TextureAtlas slimeSheet = new TextureAtlas(Content.Load<Texture2D>("images/Slime"));
+		slimeSheet.AddRegion("lime1", 0, 0, 14, 11);
+		_jellyfish = jellyfishSheet.CreateSprite("0");
+		_slime = slimeSheet.CreateSprite("lime1");
+		_jellyfish.Scale = new Vector2(4.0f, 4.0f);
+		_slime.Scale = new Vector2(4.0f, 4.0f);
     }
 
     protected override void Update(GameTime gameTime)
@@ -39,9 +47,9 @@ public class Game1 : Core
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
 		// prepare for rendering
-		SpriteBatch.Begin();
-		// draw the slime
-		SpriteBatch.Draw(_slime, Vector2.Zero, Color.White);
+		SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+		_slime.Draw(SpriteBatch, Vector2.One);
+		_jellyfish.Draw(SpriteBatch, new Vector2((_slime.Width +10), 0));
 		// need to end it when you're done
 		SpriteBatch.End();
 
