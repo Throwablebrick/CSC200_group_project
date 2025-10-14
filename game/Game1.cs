@@ -9,7 +9,7 @@ namespace mgTest;
 public class Game1 : Core
 {
 	private Sprite _slime;
-	private Sprite _jellyfish;
+	private AnimatedSprite _jellyfish;
     public Game1() : base("Quinticential game", 1280, 720, false)
     {
     }
@@ -25,11 +25,13 @@ public class Game1 : Core
     {
 		TextureAtlas jellyfishSheet = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
 		TextureAtlas slimeSheet = new TextureAtlas(Content.Load<Texture2D>("images/Slime"));
+
 		slimeSheet.AddRegion("lime1", 0, 0, 14, 11);
-		_jellyfish = jellyfishSheet.CreateSprite("0");
 		_slime = slimeSheet.CreateSprite("lime1");
-		_jellyfish.Scale = new Vector2(4.0f, 4.0f);
 		_slime.Scale = new Vector2(4.0f, 4.0f);
+
+		_jellyfish = jellyfishSheet.CreateAnimatedSprite("jellyfish-animation");
+		_jellyfish.Scale = new Vector2(4.0f, 4.0f);
     }
 
     protected override void Update(GameTime gameTime)
@@ -38,6 +40,8 @@ public class Game1 : Core
             Exit();
 
         // TODO: Add your update logic here
+
+		_jellyfish.Update(gameTime);
 
         base.Update(gameTime);
     }

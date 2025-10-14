@@ -4,5 +4,21 @@
 	<Regions>
 		<Region name="0" x="0" y="0" width="26" height="22" />
 		<Region name="1" x="26" y="0" width="26" height="22" />
+		<Region name="2" x="52" y="0" width="26" height="22" />
+		<Region name="3" x="78" y="0" width="26" height="22" />
+		<Region name="4" x="104" y="0" width="26" height="22" />
 	</Regions>
+	<Animations>
+		<Animation name="jellyfish-animation" delay="200">
+			<Frame region="0" />
+			<Frame region="1" />
+			<Frame region="2" />
+			<Frame region="3" />
+			<Frame region="4" />
+			<Frame region="3" />
+			<Frame region="2" />
+			<Frame region="1" />
+			<Frame region="0" />
+		</Animation>
+	</Animations>
 </TextureAtlas>
