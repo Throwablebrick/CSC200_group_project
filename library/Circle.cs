@@ -5,6 +5,7 @@ namespace MonoGameLibrary;
 
 public readonly struct Circle : IEquatable<Circle>
 {
+	private static readonly Circle s_empty = new Circle();
 	//the x coord for the center
 	public readonly int X;
 	//the y coord for the center
@@ -49,4 +50,31 @@ public readonly struct Circle : IEquatable<Circle>
 		float distanceSquared = Vector2.DistanceSquared(this.Location.ToVector2(), other.Location.ToVector2());
 		return distanceSquared < radiiSquared;
 	}
+	public bool Intersects(Rectangle other)
+	{
+		if (this.Left < other.Right)
+		{
+			if (this.Right > other.Left)
+			{
+				if (this.Top < other.Bottom)
+				{
+					if (this.Bottom > other.Top)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	//test for equality
+	public override readonly bool Equals(object obj) => obj is Circle other && Equals(other);
+	public readonly bool Equals(Circle other) => this.X == other.X && this.Y == other.Y && this.Radius == other.Radius;
+	//hash code implimented from inheritance
+	public override readonly int GetHashCode() => HashCode.Combine(X, Y, Radius);
+	
+	//operator overloading
+	public static bool operator ==(Circle lhs, Circle rhs) => lhs.Equals(rhs);
+	public static bool operator !=(Circle lhs, Circle rhs) => !lhs.Equals(rhs);
 }
