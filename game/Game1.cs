@@ -57,7 +57,7 @@ public class Game1 : Core
 	{
 		float speed = MOVE_SPEED;
 
-		if (Input.Keyboard.IsKeyDown(Keys.Space))
+		if (Input.Keyboard.WasKeyJustPressed(Keys.Space))
 		{
 			speed *= 1.5f;
 		}
