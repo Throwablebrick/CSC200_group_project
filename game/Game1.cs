@@ -13,6 +13,7 @@ public class Game1 : Core
 	private Sprite _slime;
 	private AnimatedSprite _jellyfish;
 	private Vector2 _jellyfishPosition;
+
 	private const float MOVE_SPEED = 5.0f;
 
     public Game1() : base("Quinticential game", 1280, 720, false)
@@ -20,9 +21,10 @@ public class Game1 : Core
     }
 
     protected override void Initialize()
-    {
-        // TODO: Add your initialization logic here
-
+	{
+		// TODO: Add your initialization logic here
+		
+		
         base.Initialize();
     }
 

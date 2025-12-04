@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -10,101 +11,146 @@ namespace mgTest;
 
 public class Player
 {
-	private const double MAXSPEED = 6.0f;
-	private const double ACCELERATE = 0.1f;
-	private const double DECELERATE = 0.15f;
-	private const double GRAVITY = 250.0f;
-	private const double JUMP = 1000.0f;
+	private const float MAX_SPEED = 6.0f;
+	private const float ACCELERATION = 0.5f;
+	private const float DECELERATION = 0.15f;
+	private const float GRAVITY = 150.0f;
+	private const float JUMP_FORCE = 30.0f;
+	private const float CAMERA_SMOOTHING = 0.1f;
 
 	public int X;
 	public int Y;
-	public Vector2 velocity;
+	public Vector2 Velocity;
+	public Vector2 WorldPosition; // position in game world
+	public Vector2 ScreenPosition; // where to draw on screen. Calculated from world position and camera
+	public Vector2 CameraPosition; 
 
-	public Rectangle hitbox;
-	public Point Camera;
-	public Point Middle;
-	public Point screenPos;
+	public Rectangle hitbox; // for detection (in world coordinates)
 
-	private string atlas_path = "images/atlas-definition.xml"
-	private string animation_name = "jellyfish-animation"
-	private TextureAtlas atlas
-	public AnimatedSprite sprite;
+	public AnimatedSprite Sprite;
 
-	public bool OnGround;
+	public bool OnGround; // flags
+
+
+	private string atlas_path = "images/atlas-definition.xml";
+	private string animation_name = "jellyfish-animation";
 
 	public Player()
 	{
-		X = 0;
-		Y = 0;
-		velocity = new Vector2(0,0);
-		hitbox = new Rectangle(0,0,128,128);//change to be sprite dimenstions when a sprite is implimented
-		Middle = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth/2, GraphicsDevice.PresentationParameters.BackBufferHeight/2)
-		Camera = new Point(-Middle.X ,-Middle.Y);
-		screenPos = new Point(X - Camera.X ,Y - Camera.Y);
-	}
-	public Player(int x, int y, int width, int height,)//set position of player(and rectangle) and rectangle width height. Don't know what values will be useful initally.
+		WorldPosition = Vector2.Zero;
+		ScreenPosition = Vector2.Zero;
+		Velocity = Vector2.Zero;
+		hitbox = new Rectangle(0,0,64,68);// should now be set properly
+		CameraPosition = Vector2.Zero;
+        OnGround = false;
+    }
+	public Player(Vector2 startPosition, int width, int height)//set position of player(and rectangle) and rectangle width height. Don't know what values will be useful initally.
 	{
-		X = x;
-		Y = y;
-		velocity = new Vector2(0,0);
-		hitbox = new Rectangle(x,y, width, height);
-		screenPos = new Point(0,0);
+		WorldPosition = startPosition;
+		ScreenPosition = Vector2.Zero;
+		Velocity = Vector2.Zero;
+		hitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, width, height);
+		CameraPosition = startPosition; // Camera at player to start
+		OnGround = false;
 	}
 
 	public void LoadContent(ContentManager content)
 	{
-		atlas = TextureAtlas.FromFile(content, atlas_path);
-		sprite = temp.CreateAnimatedSprite(animation_name);
-		sprite.Scale = new Vector2(4.0f, 4.0f);
+		TextureAtlas atlas = TextureAtlas.FromFile(content, atlas_path);
+		Sprite = atlas.CreateAnimatedSprite(animation_name);
+		Sprite.Scale = new Vector2(4.0f, 4.0f);
+
+		hitbox.Width = (int)Sprite.Width;
+		hitbox.Height = (int)Sprite.Height;
 	}
 
-	public void UpdatePrePhysics(GameTime gameTime, InputManager input)
+	public void UpdatePreCollision(GameTime gameTime)
 	{
-		velocity.y += GRAVITY;
-		KeyboardInput(input);
+		Sprite.Update(gameTime);
+
+		Velocity.Y += GRAVITY * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+		HandleInput();
 	}
 
-	public void KeyboardInput(InputManager input)
+	public void UpdatePostCollision(GameTime gameTime)
 	{
-		bool nothingPressed = true;
-		if (input.Keyboard.IsKeyDown(Keys.Space))
+		WorldPosition += Velocity;
+
+		// Update hitbox to match player position
+		hitbox.X = (int)WorldPosition.X;
+		hitbox.Y = (int)WorldPosition.Y;
+	}
+
+	public void UpdateCamera(int screenWidth, int screenHeight)
+	{
+		Vector2 targetCameraPosition = new Vector2(
+			WorldPosition.X - screenWidth / 2 + hitbox.Width / 2,
+			WorldPosition.Y - screenHeight / 2 + hitbox.Height / 2
+		);
+
+		CameraPosition = Vector2.Lerp(CameraPosition, targetCameraPosition, CAMERA_SMOOTHING);
+	}
+	
+	// Calculate screen position from world position and camera
+	public void CalculateScreenPosition()
+	{
+		ScreenPosition = WorldPosition - CameraPosition;
+	}
+	private void HandleInput()
+	{
+		bool movingHorizontally = false;
+
+		//jump
+		if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Space) && OnGround)
 		{
-			if (OnGround)
-			{
-				velocity.Y -= JUMP;
-			}
-		}
-		//
-		//if (input.Keyboard.IsKeyDown(Keys.W) || input.Keyboard.IsKeyDown(Keys.Up))
-		//if (input.Keyboard.IsKeyDown(Keys.S) || input.Keyboard.IsKeyDown(Keys.Down))
-		//
-		if (input.Keyboard.IsKeyDown(Keys.A) || input.Keyboard.IsKeyDown(Keys.Left))
-		{
-			if (velocity.X > -MAXSPEED)
-			{
-				velocity.X -= ACCELERATE;
-			}
-			nothingPressed = false;
+			Velocity.Y = -JUMP_FORCE;
+			OnGround = false;
 		}
 
-		if (input.Keyboard.IsKeyDown(Keys.D) || input.Keyboard.IsKeyDown(Keys.Right))
+		//Left
+		if (Core.Input.Keyboard.IsKeyDown(Keys.A) || Core.Input.Keyboard.IsKeyDown(Keys.Left))
 		{
-			if (velocity.X < MAXSPEED)
+			if (Velocity.X > -MAX_SPEED)
 			{
-				velocity.X += ACCELERATE;
+				Velocity.X -= ACCELERATION;
 			}
-			nothingPressed = false;
+			movingHorizontally = true;
 		}
-		if (nothingPressed)
+
+		// Right
+		if (Core.Input.Keyboard.IsKeyDown(Keys.D) || Core.Input.Keyboard.IsKeyDown(Keys.Right))
 		{
-			if (velocity.X > 0)
+			if (Velocity.X < MAX_SPEED)
 			{
-				velocity.X -= DECELERATE;
+				Velocity.X += ACCELERATION;
 			}
-			else if (velocity.x < 0)
+			movingHorizontally = true;
+		}
+
+		//Creating deceleration 
+		if (!movingHorizontally)
+		{
+			if (Velocity.X > 0)
 			{
-				velocity.X += DECELERATE;
+				Velocity.X -= DECELERATION;
+				if (Velocity.X < 0) Velocity.X = 0;
+			}
+			else if (Velocity.X < 0)
+			{
+				Velocity.X += DECELERATION;
+				if (Velocity.X > 0) Velocity.X = 0;
 			}
 		}
 	}
+
+	public void Draw(SpriteBatch spriteBatch)
+	{
+		Sprite.Draw(spriteBatch, ScreenPosition);
+	}
+	
+	public Vector2 GetCenter()
+    {
+		return new Vector2(hitbox.Center.X, hitbox.Center.Y);
+    }
 }
