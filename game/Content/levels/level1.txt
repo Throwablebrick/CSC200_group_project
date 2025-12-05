@@ -1,0 +1,8 @@
+Player
+20
+100
+Platform
+0
+200
+platforms.xml
+basic

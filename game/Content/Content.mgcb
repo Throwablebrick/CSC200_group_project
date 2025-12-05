@@ -28,6 +28,23 @@
 /processorParam:TextureFormat=Color
 /build:images/atlas.png
 
+#begin images/platforms.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/platforms.png
+
+#begin images/platforms.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:images/platforms.xml
+
 #begin images/Slime.png
 /importer:TextureImporter
 /processor:TextureProcessor

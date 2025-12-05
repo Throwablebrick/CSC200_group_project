@@ -18,8 +18,6 @@ public class Player
 	private const float JUMP_FORCE = 30.0f;
 	private const float CAMERA_SMOOTHING = 0.1f;
 
-	public int X;
-	public int Y;
 	public Vector2 Velocity;
 	public Vector2 WorldPosition; // position in game world
 	public Vector2 ScreenPosition; // where to draw on screen. Calculated from world position and camera
@@ -40,17 +38,17 @@ public class Player
 		WorldPosition = Vector2.Zero;
 		ScreenPosition = Vector2.Zero;
 		Velocity = Vector2.Zero;
-		hitbox = new Rectangle(0,0,64,68);// should now be set properly
+		//hitbox = new Rectangle(0,0,64,68);
 		CameraPosition = Vector2.Zero;
         OnGround = false;
     }
-	public Player(Vector2 startPosition, int width, int height)//set position of player(and rectangle) and rectangle width height. Don't know what values will be useful initally.
+	public Player(Vector2 startPosition)//set position of player(and rectangle) and rectangle width height. Don't know what values will be useful initally.
 	{
 		WorldPosition = startPosition;
-		ScreenPosition = Vector2.Zero;
 		Velocity = Vector2.Zero;
-		hitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, width, height);
-		CameraPosition = startPosition; // Camera at player to start
+		//hitbox = new Rectangle((int)startPosition.X, (int)startPosition.Y, width, height); should be the width and height of the sprite which is only loaded in in LoadContent so will be set there
+		CameraPosition = Vector2.Zero;
+		ScreenPosition = startPosition - CameraPosition;
 		OnGround = false;
 	}
 
@@ -59,9 +57,8 @@ public class Player
 		TextureAtlas atlas = TextureAtlas.FromFile(content, atlas_path);
 		Sprite = atlas.CreateAnimatedSprite(animation_name);
 		Sprite.Scale = new Vector2(4.0f, 4.0f);
-
-		hitbox.Width = (int)Sprite.Width;
-		hitbox.Height = (int)Sprite.Height;
+		
+		hitbox = new Rectangle((int)WorldPosition.X, (int)WorldPosition.Y, (int)Sprite.Width, (int)Sprite.Height);
 	}
 
 	public void UpdatePreCollision(GameTime gameTime)
