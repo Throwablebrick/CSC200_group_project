@@ -41,9 +41,7 @@
 /build:images/platforms.png
 
 #begin images/platforms.xml
-/importer:XmlImporter
-/processor:PassThroughProcessor
-/build:images/platforms.xml
+/copy:images/platforms.xml
 
 #begin images/Slime.png
 /importer:TextureImporter
@@ -56,4 +54,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/Slime.png
+
+#begin levels/level1.xml
+/copy:levels/level1.xml
 

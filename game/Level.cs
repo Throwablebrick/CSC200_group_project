@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,14 +15,14 @@ namespace mgTest;
 
 public class Level : Scene
 {
-	public Player player;
+	public Player Player;
 	public List<Platform> platforms;
 
 	public string LevelPath;
 
 	public Level(string path)
 	{
-		LevelPath = path
+		LevelPath = path;
 	}
 
 	public override void Initialize()
@@ -32,10 +34,10 @@ public class Level : Scene
 
 	public override void LoadContent()
 	{
-		Player.LoadContent();
+		Player.LoadContent(Core.Content);
 		foreach (Platform plattt in platforms)
 		{
-			plattt.LoadContent();
+			plattt.LoadContent(Core.Content);
 		}
 	}
 
@@ -67,36 +69,69 @@ public class Level : Scene
 
 		foreach (Platform plattt in platforms)
 		{
-			plattt.CalculateScreenPosition();
+			plattt.CalculateScreenPosition(Player.CameraPosition);
 			plattt.Draw(Core.SpriteBatch);
 		}
 
 		Core.SpriteBatch.End();
 		base.Draw(gameTime);
 	}
-
+//how this file format is formatted
+//copy from the existing level1.xml file and keep the file in the levels directory
+//edit the player's starting location and don't add anything else there
+//for platforms just copy the Platform tag for as many times as you need platforms
+//you can change the x and y values for it's position
+//setting the atlasPath and platformName values need to coincide with an edit to a coresponding .xml file in images/
+//fortunately you don't need to make a new xml file for each differently sized platform
+//just edit the platforms.png and add the start and end pixels for that platform to the platforms.xml file
+//when you edit the platforms.xml file make sure that you name this new platform region and that you match it with the name(platformName) in the level xml file
+//
+//if you need an editor to make pixel art in there's this website https://www.pixilart.com/draw
+//if you care and want to get fancy you can also get aseprite(it's 20$ but also open source so you can just compile it for free(this is intended))
+//though that's easier said than done but fyi that's an option.
+//the scale should *probably* stay at 4. It should at least be consistent between all the art
 	private void LoadLevel(string levelPath)
 	{
 		string filePath = Path.Combine(Content.RootDirectory, levelPath);
 
 		try
 		{
-			using (StreamReader reader = new StreamReader(filePath))
+			using (Stream stream = TitleContainer.OpenStream(filePath))
 			{
-				string line;
-
-				while ((line = reader.ReadLine()) != null)
+				using(XmlReader reader = XmlReader.Create(stream))
 				{
-					if (line == "Player")
+					XDocument doc = XDocument.Load(reader);
+					XElement root = doc.Root;
+
+					var layers = root.Element("Players")?.Elements("Player"); //this is redundant but I can garentee(ish) it will work
+					if (layers != null)
 					{
-						player = new Player(new Vector2(float.Parse(reader.ReadLine()), float.Parse(reader.ReadLine())));
+						foreach (var layer in  layers)
+						{
+							float x = float.Parse(layer.Attribute("x")?.Value ?? "0");
+							float y = float.Parse(layer.Attribute("y")?.Value ?? "0");
+							Vector2 pos = new Vector2(x,y);
+							Player = new Player(pos);
+						}
 					}
-					if (line == "Platform")
+
+					var plats = root.Element("Platforms")?.Elements("Platform"); 
+					if (plats != null)
 					{
-						Vector2 v = new Vector2(float.Parse(reader.ReadLine()), float.Parse(reader.ReadLine()));
-						Platform p = new Platform(v, reader.ReadLine(), reader.ReadLine());
-						platforms.Add(p);
+						foreach (var plat in plats)
+						{
+							float x = float.Parse(plat.Attribute("x")?.Value ?? "0");
+							float y = float.Parse(plat.Attribute("y")?.Value ?? "0");
+							Vector2 pos = new Vector2(x,y);
+							string atlasPath = plat.Attribute("atlasPath")?.Value;
+							string platName = plat.Attribute("platformName")?.Value;
+							float scale = float.Parse(plat.Attribute("scale")?.Value ?? "4");
+
+							Platform p = new Platform(pos, atlasPath, platName, scale);
+							platforms.Add(p);
+						}
 					}
+
 				}
 			}
 		}

@@ -19,6 +19,6 @@ public class Game1 : Core
 	{
         base.Initialize();
 
-		ChangeScene(new Level("levels/level1.txt"));
+		ChangeScene(new Level("levels/level1.xml"));
     }
 }

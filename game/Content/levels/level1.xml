@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level>
+	<Players>
+		<Player x="20" y="100" />
+	</Players>
+	<Platforms>
+		<Platform x="0" y="200" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+	</Platforms>
+</Level>
