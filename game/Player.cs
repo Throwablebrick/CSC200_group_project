@@ -72,11 +72,7 @@ public class Player
 
 	public void UpdatePostCollision(GameTime gameTime)
 	{
-		WorldPosition += Velocity;
-
-		// Update hitbox to match player position
-		hitbox.X = (int)WorldPosition.X;
-		hitbox.Y = (int)WorldPosition.Y;
+		// now handled in level
 	}
 
 	public void UpdateCamera(int screenWidth, int screenHeight)

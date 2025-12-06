@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level>
+	<Players>
+		<Player x="50" y="300" />
+	</Players>
+	<Platforms>
+		<Platform x="0" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="500" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="1000" y="400" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="1500" y="350" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+		<Platform x="1900" y="350" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="2400" y="150" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="2900" y="150" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        <Platform x="3500" y="350" atlasPath="images/platforms.xml" platformName="basic" scale="3" />
+
+        <Platform x="3900" y="250" atlasPath="images/platforms.xml" platformName="basic" scale="3" />
+
+        <Platform x="4300" y="350" atlasPath="images/platforms.xml" platformName="basic" scale="3" />
+
+        <Platform x="4700" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        <Platform x="5100" y="250" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        <Platform x="5500" y="200" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        <Platform x="5900" y="200" atlasPath="images/platforms.xml" platformName="basic" scale="5" />
+	</Platforms>
+</Level>

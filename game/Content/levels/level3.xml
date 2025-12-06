@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Level>
+	<Players>
+		<Player x="100" y="400" />
+	</Players>
+	<Platforms>
+		<Platform x="0" y="600" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="600" y="600" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        // "ceiling"
+        <Platform x="0" y="50" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="600" y="50" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        // Upper path
+        <Platform x="1200" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="1800" y="400" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="2400" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        // Tunnel
+        <Platform x="3000" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="3000" y="-200" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="3600" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+        <Platform x="3600" y="-200" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        // step-up climb
+        <Platform x="4200" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="4500" y="400" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="4800" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="5100" y="200" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        // ceiling for step-up
+        <Platform x="4200" y="0" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="4500" y="-100" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="4800" y="-200" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="5100" y="-300" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        // Big jump
+        <Platform x="5500" y="100" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        // Continuing path
+        <Platform x="6100" y="150" atlasPath="images/platforms.xml" platformName="basic" scale="3" />
+        <Platform x="6500" y="220" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="6900" y="270" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+		
+        // Wave platforms
+        <Platform x="7300" y="400" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="7650" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="7950" y="400" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="8250" y="300" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="8550" y="450" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        // finish
+        <Platform x="9000" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+        <Platform x="9000" y="-50" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="9000" y="250" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        <Platform x="9600" y="-50" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+        <Platform x="9600" y="250" atlasPath="images/platforms.xml" platformName="basic" scale="2" />
+
+        <Platform x="9400" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+
+
+	</Platforms>
+</Level>

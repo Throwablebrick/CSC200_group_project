@@ -58,3 +58,9 @@
 #begin levels/level1.xml
 /copy:levels/level1.xml
 
+#begin levels/level2.xml
+/copy:levels/level2.xml
+
+#begin levels/level3.xml
+/copy:levels/level3.xml
+

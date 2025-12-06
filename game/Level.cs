@@ -45,12 +45,46 @@ public class Level : Scene
 	{
 		Player.UpdatePreCollision(gameTime);
 
+		Player.WorldPosition += Player.Velocity;
+		Player.hitbox.X = (int)Player.WorldPosition.X;
+		Player.hitbox.Y = (int)Player.WorldPosition.Y;
+
+		Player.OnGround = false;
+
 		foreach (Platform plattt in platforms)
 		{
 			if (Player.hitbox.Intersects(plattt.CollisionBox))
-			{
-				Player.WorldPosition -= Player.Velocity;
-			}
+            {
+                if (Player.Velocity.Y > 0 && Player.hitbox.Bottom > plattt.CollisionBox.Top)
+				{
+					Player.WorldPosition.Y = plattt.CollisionBox.Top - Player.hitbox.Height;
+					Player.Velocity.Y = 0;
+					Player.OnGround = true;
+                }
+
+				else if (Player.Velocity.Y < 0)
+                {
+                    Player.WorldPosition.Y = plattt.CollisionBox.Bottom;
+					Player.Velocity.Y = 0;
+                }
+
+				else if (Player.Velocity.X != 0)
+                {
+                    if (Player.Velocity.X > 0)
+                    {
+                        Player.WorldPosition.X = plattt.CollisionBox.Left - Player.hitbox.Width;
+					}
+					else
+					{
+						Player.WorldPosition.X = plattt.CollisionBox.Right;
+                    }
+					
+					Player.Velocity.X = 0;
+                }
+
+				Player.hitbox.X = (int)Player.WorldPosition.X;
+				Player.hitbox.Y = (int)Player.WorldPosition.Y;
+            }
 			plattt.Update();
 		}
 

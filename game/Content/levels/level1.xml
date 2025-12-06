@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Level>
 	<Players>
-		<Player x="20" y="100" />
+		<Player x="50" y="100" />
 	</Players>
 	<Platforms>
-		<Platform x="0" y="200" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+		<Platform x="0" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+		<Platform x="400" y="500" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="900" y="420" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="1400" y="380" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="1900" y="420" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="2400" y="320" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="2900" y="450" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
+
+		<Platform x="3400" y="250" atlasPath="images/platforms.xml" platformName="basic" scale="4" />
 	</Platforms>
 </Level>
