@@ -55,33 +55,83 @@ public class Level : Scene
 		{
 			if (Player.hitbox.Intersects(plattt.CollisionBox))
             {
-                if (Player.Velocity.Y > 0 && Player.hitbox.Bottom > plattt.CollisionBox.Top)
+				if (Player.hitbox.Bottom < plattt.CollisionBox.Bottom)
 				{
-					Player.WorldPosition.Y = plattt.CollisionBox.Top - Player.hitbox.Height;
-					Player.Velocity.Y = 0;
-					Player.OnGround = true;
-                }
-
-				else if (Player.Velocity.Y < 0)
-                {
-                    Player.WorldPosition.Y = plattt.CollisionBox.Bottom;
-					Player.Velocity.Y = 0;
-                }
-
-				else if (Player.Velocity.X != 0)
-                {
-                    if (Player.Velocity.X > 0)
-                    {
-                        Player.WorldPosition.X = plattt.CollisionBox.Left - Player.hitbox.Width;
-					}
-					else
+					int diffy = Player.hitbox.Bottom - plattt.CollisionBox.Top;
+					if (Player.hitbox.Right < plattt.CollisionBox.Right)
 					{
-						Player.WorldPosition.X = plattt.CollisionBox.Right;
-                    }
-					
-					Player.Velocity.X = 0;
-                }
-
+						if (Player.hitbox.Left > plattt.CollisionBox.Left)
+						{
+							Player.WorldPosition.Y -= diffy;
+							Player.Velocity.Y = 0;
+							Player.OnGround = true;
+						} else
+						{
+							int diffx = Player.hitbox.Right - plattt.CollisionBox.Left;
+							if (diffx < diffy)
+							{
+								Player.WorldPosition.X -= diffx;
+								Player.Velocity.X = 0;
+							} else
+							{
+								Player.WorldPosition.Y -= diffy;
+								Player.Velocity.Y = 0;
+								Player.OnGround = true;
+							}
+						}
+					} else
+					{
+						int diffx = plattt.CollisionBox.Right - Player.hitbox.Left;
+						if (diffx < diffy)
+						{
+							Player.WorldPosition.X -= diffx;
+							Player.Velocity.X = 0;
+						} else
+						{
+							Player.WorldPosition.Y -= diffy;
+							Player.Velocity.Y = 0;
+							Player.OnGround = true;
+						}
+					}
+				} else
+				{
+					int diffy = plattt.CollisionBox.Bottom - Player.hitbox.Top;
+					if (Player.hitbox.Right < plattt.CollisionBox.Right)
+					{
+						if (Player.hitbox.Left > plattt.CollisionBox.Left)
+						{
+							Player.WorldPosition.Y -= diffy;
+							Player.Velocity.Y = 0;
+							Player.OnGround = true;
+						} else
+						{
+							int diffx = Player.hitbox.Right - plattt.CollisionBox.Left;
+							if (diffx < diffy)
+							{
+								Player.WorldPosition.X -= diffx;
+								Player.Velocity.X = 0;
+							} else
+							{
+								Player.WorldPosition.Y -= diffy;
+								Player.Velocity.Y = 0;
+								Player.OnGround = true;
+							}
+						}
+					} else
+					{
+						int diffx = plattt.CollisionBox.Right - Player.hitbox.Left;
+						if (diffx < diffy)
+						{
+							Player.WorldPosition.X -= diffx;
+							Player.Velocity.X = 0;
+						} else
+						{
+							Player.WorldPosition.Y -= diffy;
+							Player.Velocity.Y = 0;
+							Player.OnGround = true;
+						}
+					}
+				}
 				Player.hitbox.X = (int)Player.WorldPosition.X;
 				Player.hitbox.Y = (int)Player.WorldPosition.Y;
             }

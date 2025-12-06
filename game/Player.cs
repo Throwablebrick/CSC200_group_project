@@ -11,11 +11,11 @@ namespace mgTest;
 
 public class Player
 {
-	private const float MAX_SPEED = 6.0f;
+	private const float MAX_SPEED = 8.0f;
 	private const float ACCELERATION = 0.5f;
-	private const float DECELERATION = 0.15f;
-	private const float GRAVITY = 150.0f;
-	private const float JUMP_FORCE = 30.0f;
+	private const float DECELERATION = 0.3f;
+	private const float GRAVITY = 75.0f;
+	private const float JUMP_FORCE = 20.0f;
 	private const float CAMERA_SMOOTHING = 0.1f;
 
 	public Vector2 Velocity;
